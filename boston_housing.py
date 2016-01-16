@@ -61,7 +61,7 @@ def split_data(city_data):
 	###################################
 	### Step 3. YOUR CODE GOES HERE ###
 	###################################
-	X_train, X_test, y_train, y_test = train_test_split(X, y)
+	X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 	return X_train, y_train, X_test, y_test
 
 
@@ -157,7 +157,7 @@ def fit_predict_model(city_data):
 	# should be the same as your performance_metric procedure
 	# http://scikit-learn.org/stable/modules/generated/sklearn.metrics.make_scorer.html
 	MSE = make_scorer(mean_squared_error, greater_is_better=False)
-    
+
 	# 2. Use gridearch to fine tune the Decision Tree Regressor and find the best model
 	# http://scikit-learn.org/stable/modules/generated/sklearn.grid_search.GridSearchCV.html#sklearn.grid_search.GridSearchCV
 
@@ -166,14 +166,20 @@ def fit_predict_model(city_data):
 	regressor = DecisionTreeRegressor()
 	#reg = grid_search.GridSearchCV(regressor, parameters, scoring=MSE)
 	reg = grid_search.GridSearchCV(regressor, parameters)
-    
+
 	# Fit the learner to the training data
 	print "Final Model: "
 	print reg.fit(X, y)
-    
+
+    best_reg = reg.best_esmitaor_
+    print(best_reg)
+
     # Use the model to predict the output of a particular sample
 	x = [11.95, 0.00, 18.100, 0, 0.6590, 5.6090, 90.00, 1.385, 24, 680.0, 20.20, 332.09, 12.13]
-	y = reg.predict(x)
+
+    #y = reg.predict(x)
+    y = best_reg.predict(x)
+
 	print "House: " + str(x)
 	print "Prediction: " + str(y)
 
@@ -191,6 +197,7 @@ def main():
 
 	# Training/Test dataset split
 	X_train, y_train, X_test, y_test = split_data(city_data)
+
 	# Learning Curve Graphs
 	max_depths = [1,2,3,4,5,6,7,8,9,10]
 	for max_depth in max_depths:
@@ -201,6 +208,5 @@ def main():
 
 	# Tune and predict Model
 	fit_predict_model(city_data)
-
 
 main()

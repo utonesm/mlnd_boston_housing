@@ -171,7 +171,7 @@ def fit_predict_model(city_data):
 	print "Final Model: "
 	print reg.fit(X, y)
 
-	best_reg = reg.best_esmitaor_
+	best_reg = reg.best_estimator_
 	print(best_reg)
 
     # Use the model to predict the output of a particular sample
